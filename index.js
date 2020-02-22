@@ -84,11 +84,14 @@ class Car {
         this.tank = this.tank + gallons;
     }
     drive(distance) {
-        this.odometer = this.odometer + distance;
-        this.tank = distance / this.milesPerGallon;
-        if (this.tank = 0) {
-            return 'I ran out of fuel at ${this.odometer} miles!'
+        if (distance / this.milesPerGallon > this.tank) {
+            this.odometer = this.milesPerGallon * this.tank;
+            this.tank = 0;
+            return `I ran out of fuel at ${this.odometer} miles!`;
         }
+        this.odometer = this.odometer + distance;
+        this.tank -= distance / this.milesPerGallon;
+
     }
 }
 
@@ -105,10 +108,10 @@ class Car {
         + {name} and {location} of course come from the instance's own properties.
 */
 class Lambdasian {
-    constructor(lambaObj) {
-        this.name = name;
-        this.age = 38;
-        this.location = location;
+    constructor(lambdaObj) {
+        this.name = lambdaObj.name;
+        this.age = lambdaObj.age;
+        this.location = lambdaObj.location;
     }
     speak() {
         return `Hello my name is ${this.name}, I am from ${this.location}.`;
@@ -132,15 +135,15 @@ class Lambdasian {
 class Instructor extends Lambdasian {
     constructor(teacherObj) {
         super(teacherObj);
-        this.specialty = "JavaScript";
-        this.favLanguage = "JavaScript";
-        this.catchPhrase = "JavaScript is wild";
+        this.specialty = teacherObj.specialty;
+        this.favLanguage = teacherObj.favLanguage;
+        this.catchPhrase = teacherObj.catchPhrase
     }
     demo(subject) {
         return `Today we are learning about ${subject}`;
     }
     grade(lambdaObj, subject) {
-        return `${Student.name} receives a perfect score on ${subject}`
+        return `${lambdaObj.name} receives a perfect score on ${subject}`
     }
 }
 
@@ -161,19 +164,19 @@ class Instructor extends Lambdasian {
 */
 class Student extends Lambdasian {
     constructor(studentObj) {
-        super();
-        this.previousBackground = "Sales";
-        this.className = "WEBPT 15";
-        this.favSubjects = [];
+        super(studentObj);
+        this.previousBackground = studentObj.previousBackground;
+        this.className = studentObj.className;
+        this.favSubjects = studentObj.favSubjects
     }
     listSubjects() {
         return this.favSubjects;
     }
     PRAssignment(subject) {
-        return `${Student.name} has submitted a PR for subject`;
+        return `${this.name} has submitted a PR for ${subject}`;
     }
     sprintChallenge(subject) {
-        return `${Student.name} has begun sprint challenge on subject`;
+        return `${this.name} has begun sprint challenge on ${subject}`;
     }
 }
 
@@ -193,14 +196,14 @@ class Student extends Lambdasian {
 class ProjectManager extends Instructor {
     constructor(projObj) {
         super(projObj);
-        this.gradClassName = "CS1";
-        this.favInstructor = "Sean";
+        this.gradClassName = projObj.gradClassName;
+        this.favInstructor = projObj.favInstructor
     }
     standUp(channel) {
-        return `${this.name} announces to channel, @channel standy times!`
+        return `${this.name} announces to ${channel}, @channel standy times!`
     }
     debugsCode(studentObj, subject) {
-        return `${this.name} debugs ${Student.name}'s code on subject.`
+        return `${this.name} debugs ${studentObj.name}'s code on ${subject}.`
     }
 }
 
